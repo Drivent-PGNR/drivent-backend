@@ -23,4 +23,5 @@ jobs:
         run: npm i && npm run build
 
       - name: Test
-        run: npm run test
+        run: npm run test:migration:generate && npm run test:seed && npm run test
+  
