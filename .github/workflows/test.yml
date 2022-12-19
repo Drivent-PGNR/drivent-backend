@@ -23,4 +23,4 @@ jobs:
         run: npm run ci:build
 
       - name: Test
-        run: npm run ci:test
+        run: npm run test:migration:generate && npm run test:seed && npm run ci:test
