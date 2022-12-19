@@ -25,3 +25,4 @@ jobs:
       - name: Test
         run: npm run test:migration:generate && npm run test:seed && npm run test
   
+
