@@ -3,7 +3,16 @@ import { prisma } from "@/config";
 async function findHotels() {
   return prisma.hotel.findMany({
     include: {
-      Rooms: true,
+      Rooms: {
+        select: {
+          capacity: true,
+          Booking: {
+            select: {
+              id: true,
+            }
+          },
+        }
+      }
     }
   });
 }
