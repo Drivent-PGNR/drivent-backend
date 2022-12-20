@@ -1,5 +1,5 @@
 import { notFoundError, unauthorizedError } from "@/errors";
-import paymentRepository, { PaymentParams } from "@/repositories/payment-repository";
+import paymentRepository from "@/repositories/payment-repository";
 import ticketRepository from "@/repositories/ticket-repository";
 import enrollmentRepository from "@/repositories/enrollment-repository";
 
@@ -39,7 +39,7 @@ async function paymentProcess(ticketId: number, userId: number, cardData: CardPa
     cardLastDigits: cardData.number.toString().slice(-4),
   };
 
-  const payment = await paymentRepository.createPayment(ticketId, paymentData);
+  const payment = await paymentRepository.createPayment(paymentData);
 
   await ticketRepository.ticketProcessPayment(ticketId);
 
