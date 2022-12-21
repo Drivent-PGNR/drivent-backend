@@ -3,7 +3,7 @@ import activityService from "@/services/activities-service";
 import { Response } from "express";
 import httpStatus from "http-status";
 
-export async function getActivities(req: AuthenticatedRequest, res: Response) {
+export async function getActivities(_req: AuthenticatedRequest, res: Response) {
   try {
     const activities = await activityService.getActivities();
 
@@ -24,6 +24,9 @@ export async function connectTicketToActivity(req: AuthenticatedRequest, res: Re
   } catch (error) {
     if (error.name === "NotFoundError") {
       res.sendStatus(httpStatus.NOT_FOUND);
+    }
+    if (error.name === "ForbiddenError") {
+      res.sendStatus(httpStatus.FORBIDDEN);
     }
     return res.sendStatus(httpStatus.BAD_REQUEST);
   }
