@@ -16,6 +16,18 @@ async function main() {
     });
   }
 
+  const ticketTypes = await prisma.ticketType.findMany()
+  if (ticketTypes.length !== 3) {
+    await prisma.ticketType.deleteMany({})
+    await prisma.ticketType.createMany({
+      data: [
+        { name: 'Online', includesHotel: false, isRemote: true, price: 100 },
+        { name: 'Presencial sem Hotel', includesHotel: false, isRemote: false, price: 250 },
+        { name: 'Presencial com Hotel', includesHotel: true, isRemote: false, price: 600 },
+      ]
+    })
+  }
+
   console.log({ event });
 }
 
