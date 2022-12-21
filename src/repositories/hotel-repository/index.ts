@@ -7,7 +7,10 @@ async function findHotels() {
         select: {
           id: true,
           name: true,
+          hotelId: true,
           capacity: true,
+          createdAt: true,
+          updatedAt: true,
           Booking: true,
         },
       }
