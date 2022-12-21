@@ -5,6 +5,10 @@ async function findActivities() {
   return prisma.activity.findMany({ include: { Building: true } });
 }
 
+async function findActivityById(id: number) {
+  return prisma.activity.findFirst({ where: { id } });
+}
+
 async function connectTicketToActivity(ticketId: number, activityId: number) {
   return prisma.activity.update({
     where: { id: activityId },
@@ -18,6 +22,7 @@ async function connectTicketToActivity(ticketId: number, activityId: number) {
 
 const activityRepository = {
   findActivities,
+  findActivityById,
   connectTicketToActivity
 };
 

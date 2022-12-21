@@ -1,3 +1,4 @@
+import { notFoundError } from "@/errors";
 import activityRepository from "@/repositories/activity-repository";
 import ticketRepository from "@/repositories/ticket-repository";
 
@@ -8,8 +9,15 @@ async function getActivities() {
 
 async function connectTicketToActivity(userId: number, activityId: number) {
   const ticket = await ticketRepository.findTicketByUserId(userId);
-  const conn = await activityRepository.connectTicketToActivity(ticket.id, activityId);
-  return conn;
+  if (!ticket) {
+    throw notFoundError();
+  }
+  const activity = await activityRepository.findActivityById(activityId);
+  if (!activity) {
+    throw notFoundError();
+  }
+
+  return activityRepository.connectTicketToActivity(ticket.id, activityId);
 }
 
 const activityService = {

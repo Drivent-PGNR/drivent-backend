@@ -22,6 +22,9 @@ export async function connectTicketToActivity(req: AuthenticatedRequest, res: Re
 
     return res.sendStatus(httpStatus.CREATED);
   } catch (error) {
+    if (error.name === "NotFoundError") {
+      res.sendStatus(httpStatus.NOT_FOUND);
+    }
     return res.sendStatus(httpStatus.BAD_REQUEST);
   }
 }

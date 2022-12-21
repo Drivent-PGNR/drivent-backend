@@ -39,6 +39,19 @@ async function main() {
       ]
     })
   }
+
+  const activities = await prisma.activity.findMany()
+  if (activities.length === 0) {
+    const buildings = await prisma.building.findMany()
+    await prisma.activity.createMany({
+      data: [
+        { buildingId: buildings[0].id, capacity: 20, name: "Minecraft: Montando o PC Ideal", startsAt: new Date("22 January 2023 09:00 UTC"), endsAt: new Date("22 January 2023 10:00 UTC") },
+        { buildingId: buildings[0].id, capacity: 10, name: "Palestra Clean Code", startsAt: new Date("22 January 2023 10:00 UTC"), endsAt: new Date("22 January 2023 11:00 UTC") },
+        { buildingId: buildings[1].id, capacity: 100, name: "Shark Tank: Drivent!", startsAt: new Date("22 January 2023 09:00 UTC"), endsAt: new Date("22 January 2023 10:30 UTC") },
+
+      ]
+    })
+  }
 }
 
 main()
