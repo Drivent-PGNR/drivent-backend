@@ -17,10 +17,11 @@ async function verifyTicketAndEnrollment(ticketId: number, userId: number) {
 }
 
 async function getPaymentByTicketId(userId: number, ticketId: number) {
+
   await verifyTicketAndEnrollment(ticketId, userId);
 
   const payment = await paymentRepository.findPaymentByTicketId(ticketId);
-
+  
   if (!payment) {
     throw notFoundError();
   }
