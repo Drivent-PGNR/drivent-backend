@@ -103,6 +103,7 @@ describe("GET /hotels", () => {
               ...createdRoom,
               createdAt: createdRoom.createdAt.toISOString(),
               updatedAt: createdRoom.updatedAt.toISOString(),
+              Booking: [],
             }
           ],
         }
