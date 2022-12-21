@@ -14,6 +14,7 @@ async function main() {
         endsAt: dayjs().add(21, "days").toDate(),
       },
     });
+    console.log({ event })
   }
 
   const ticketTypes = await prisma.ticketType.findMany()
@@ -28,7 +29,16 @@ async function main() {
     })
   }
 
-  console.log({ event });
+  const buildings = await prisma.building.findMany()
+  if (buildings.length === 0) {
+    await prisma.building.createMany({
+      data: [
+        { name: 'Auditório Principal' },
+        { name: 'Auditório Lateral' },
+        { name: 'Sala de Workshop' }
+      ]
+    })
+  }
 }
 
 main()
