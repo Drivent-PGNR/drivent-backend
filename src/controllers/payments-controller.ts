@@ -5,16 +5,16 @@ import httpStatus from "http-status";
 
 export async function getPaymentByTicketId(req: AuthenticatedRequest, res: Response) {
   try {
-
-    const ticketId = 1;
+    const ticketId = Number(req.query.ticketId);
     const { userId } = req;
+
+    console.log(ticketId);
 
     if (!ticketId) {
       return res.sendStatus(httpStatus.BAD_REQUEST);
     }
- 
     const payment = await paymentService.getPaymentByTicketId(userId, ticketId);
-  
+
     if (!payment) {
       return res.sendStatus(httpStatus.NOT_FOUND);
     }

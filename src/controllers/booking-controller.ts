@@ -19,14 +19,13 @@ export async function listBooking(req: AuthenticatedRequest, res: Response) {
 export async function bookingRoom(req: AuthenticatedRequest, res: Response) {
   try {
     const { userId } = req;
+    const { selectedRoom }  = req.body;
 
-    const { roomId } = req.body;
-
-    if (!roomId) {
+    if (!selectedRoom) {
       return res.sendStatus(httpStatus.BAD_REQUEST);
     }
 
-    const booking = await bookingService.bookingRoomById(userId, Number(roomId));
+    const booking = await bookingService.bookingRoomById(userId, Number(selectedRoom));
 
     return res.status(httpStatus.OK).send({
       bookingId: booking.id,
