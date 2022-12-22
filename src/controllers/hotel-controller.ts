@@ -26,7 +26,6 @@ export async function getHotelsWithRooms(req: AuthenticatedRequest, res: Respons
 
   try {
     const hotels = await hotelService.getHotelsWithRooms(Number(userId), Number(hotelId));
-    console.log(hotels);
     return res.status(httpStatus.OK).send(hotels);
   } catch (error) {
     if (error.name === "NotFoundError") {
