@@ -8,6 +8,8 @@ export async function getPaymentByTicketId(req: AuthenticatedRequest, res: Respo
     const ticketId = Number(req.query.ticketId);
     const { userId } = req;
 
+    console.log(ticketId);
+
     if (!ticketId) {
       return res.sendStatus(httpStatus.BAD_REQUEST);
     }
