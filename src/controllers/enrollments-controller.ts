@@ -11,7 +11,10 @@ export async function getEnrollmentByUser(req: AuthenticatedRequest, res: Respon
 
     return res.status(httpStatus.OK).send(enrollmentWithAddress);
   } catch (error) {
-    return res.sendStatus(httpStatus.BAD_GATEWAY);
+    if (error.name) {
+      return res.sendStatus(httpStatus.NOT_FOUND);
+    }
+    return res.sendStatus(httpStatus.BAD_REQUEST);
   }
 }
 

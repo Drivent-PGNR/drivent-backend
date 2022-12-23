@@ -19,8 +19,7 @@ export async function listBooking(req: AuthenticatedRequest, res: Response) {
 export async function bookingRoom(req: AuthenticatedRequest, res: Response) {
   try {
     const { userId } = req;
-
-    const { roomId } = req.body;
+    const { roomId }  = req.body;
 
     if (!roomId) {
       return res.sendStatus(httpStatus.BAD_REQUEST);
