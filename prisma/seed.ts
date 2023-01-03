@@ -30,7 +30,7 @@ async function main() {
   }
 
   const hotels = await prisma.hotel.findMany()
-  if (hotels.length === 3) {
+  if (hotels.length !== 3) {
     await prisma.room.deleteMany({})
     await prisma.hotel.deleteMany({})
     await prisma.hotel.createMany({
@@ -70,8 +70,7 @@ async function main() {
       data: [
         { buildingId: buildings[0].id, capacity: 20, name: "Minecraft: Montando o PC Ideal", startsAt: new Date("22 January 2023 09:00 UTC"), endsAt: new Date("22 January 2023 10:00 UTC") },
         { buildingId: buildings[0].id, capacity: 10, name: "Palestra Clean Code", startsAt: new Date("22 January 2023 10:00 UTC"), endsAt: new Date("22 January 2023 11:00 UTC") },
-        { buildingId: buildings[1].id, capacity: 100, name: "Shark Tank: Drivent!", startsAt: new Date("22 January 2023 09:00 UTC"), endsAt: new Date("22 January 2023 10:30 UTC") },
-
+        { buildingId: buildings[1].id, capacity: 100, name: "Shark Tank: Drivent!", startsAt: new Date("23 January 2023 09:00 UTC"), endsAt: new Date("23 January 2023 10:30 UTC") },
       ]
     })
   }
