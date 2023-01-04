@@ -25,7 +25,7 @@ async function findRoomsByHotelId(hotelId: number) {
     },
     include: {
       Rooms: {
-        select:{
+        select: {
           id: true,
           name: true,
           hotelId: true,

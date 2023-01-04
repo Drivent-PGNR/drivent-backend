@@ -86,7 +86,7 @@ describe("GET /booking", () => {
       const response = await server.get("/booking").set("Authorization", `Bearer ${token}`);
 
       expect(response.status).toEqual(httpStatus.OK);
-      expect(response.body).toEqual({
+      expect(response.body).toEqual(expect.objectContaining({
         id: booking.id,
         Room: {
           id: expect.any(Number),
@@ -96,7 +96,7 @@ describe("GET /booking", () => {
           createdAt: expect.any(String),
           updatedAt: expect.any(String)
         },
-      });
+      }));
     });
   });
 });

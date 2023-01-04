@@ -1,5 +1,5 @@
-import { prisma } from "@/config";
-import { } from "@prisma/client";
+/* import { prisma } from "@/config";
+import { Activity } from "@prisma/client";
 
 async function findActivities() {
   return prisma.activity.findMany({
@@ -46,3 +46,4 @@ const activityRepository = {
 };
 
 export default activityRepository;
+ */
