@@ -29,7 +29,30 @@ async function main() {
     })
   }
 
-  /* const buildings = await prisma.building.findMany()
+  const hotels = await prisma.hotel.findMany()
+  if (hotels.length === 3) {
+    await prisma.room.deleteMany({})
+    await prisma.hotel.deleteMany({})
+    await prisma.hotel.createMany({
+      data: [
+        { name: 'Driven Resort', image: 'https://media-cdn.tripadvisor.com/media/photo-s/16/1a/ea/54/hotel-presidente-4s.jpg' },
+        { name: 'Driven Palace', image: 'https://media.radissonhotels.net/image/metropolitan-hotel-sofia-a-member-of-radisson-individuals/exteriorview/16256-145921-f72742573_3xl.jpg' },
+        { name: 'Driven World', image: 'http://www.radiohotel.com.br/assets/img/radio.jpg' }
+      ]
+    })
+    const hotels = await prisma.hotel.findMany()
+    for (const hotel of hotels) {
+      await prisma.room.createMany({
+        data: [
+          { name: '101', capacity: 1, hotelId: hotel.id },
+          { name: '102', capacity: 2, hotelId: hotel.id },
+          { name: '103', capacity: 3, hotelId: hotel.id }
+        ]
+      })
+    }
+  }
+
+  const buildings = await prisma.building.findMany()
   if (buildings.length === 0) {
     await prisma.building.createMany({
       data: [
@@ -51,7 +74,7 @@ async function main() {
 
       ]
     })
-  } */
+  }
 }
 
 main()
