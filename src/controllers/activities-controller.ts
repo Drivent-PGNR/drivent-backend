@@ -1,4 +1,4 @@
-import { AuthenticatedRequest } from "@/middlewares";
+/* import { AuthenticatedRequest } from "@/middlewares";
 import activityService from "@/services/activities-service";
 import { Response } from "express";
 import httpStatus from "http-status";
@@ -31,3 +31,4 @@ export async function connectTicketToActivity(req: AuthenticatedRequest, res: Re
     return res.sendStatus(httpStatus.BAD_REQUEST);
   }
 }
+ */

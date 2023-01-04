@@ -29,7 +29,7 @@ async function main() {
     })
   }
 
-  const buildings = await prisma.building.findMany()
+  /* const buildings = await prisma.building.findMany()
   if (buildings.length === 0) {
     await prisma.building.createMany({
       data: [
@@ -51,7 +51,7 @@ async function main() {
 
       ]
     })
-  }
+  } */
 }
 
 main()
