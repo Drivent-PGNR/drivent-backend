@@ -7,6 +7,7 @@ export async function getActivities(_req: AuthenticatedRequest, res: Response) {
   try {
     const activities = await activityService.getActivities();
 
+    console.log({ activities });
     return res.status(httpStatus.OK).send(activities);
   } catch (error) {
     return res.sendStatus(httpStatus.BAD_REQUEST);
@@ -28,6 +29,15 @@ export async function connectTicketToActivity(req: AuthenticatedRequest, res: Re
     if (error.name === "ForbiddenError") {
       res.sendStatus(httpStatus.FORBIDDEN);
     }
+    return res.sendStatus(httpStatus.BAD_REQUEST);
+  }
+}
+
+export async function getDayActivities(_req: AuthenticatedRequest, res: Response) {
+  try {
+    const dayActivity = await activityService.getDayActivities();
+    return res.status(httpStatus.OK).send(dayActivity);
+  } catch (error) {
     return res.sendStatus(httpStatus.BAD_REQUEST);
   }
 }

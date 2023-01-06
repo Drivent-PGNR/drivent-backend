@@ -39,10 +39,20 @@ async function connectTicketToActivity(ticketId: number, activityId: number) {
   });
 }
 
+async function findDayActivities() {
+  return prisma.activity.findMany({
+    select: {    
+      startsAt: true,
+    }
+     
+  });
+}
+
 const activityRepository = {
   findActivities,
   findActivityById,
-  connectTicketToActivity
+  connectTicketToActivity,
+  findDayActivities
 };
 
 export default activityRepository;
