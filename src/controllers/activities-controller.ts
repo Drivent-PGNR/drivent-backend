@@ -33,13 +33,16 @@ export async function connectTicketToActivity(req: AuthenticatedRequest, res: Re
     return res.sendStatus(httpStatus.CREATED);
   } catch (error) {
     if (error.name === "NotFoundError") {
-      res.sendStatus(httpStatus.NOT_FOUND);
+      return res.sendStatus(httpStatus.NOT_FOUND);
     }
     if (error.name === "ForbiddenError") {
-      res.sendStatus(httpStatus.FORBIDDEN);
+      return res.sendStatus(httpStatus.FORBIDDEN);
     }
     if (error.name === "ConflictError") {
-      res.sendStatus(httpStatus.CONFLICT);
+      return res.sendStatus(httpStatus.CONFLICT);
+    }
+    if (error.name === "PaymentRequiredError") {
+      return res.sendStatus(httpStatus.PAYMENT_REQUIRED);
     }
     return res.sendStatus(httpStatus.BAD_REQUEST);
   }
