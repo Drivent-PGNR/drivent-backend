@@ -1,3 +1,4 @@
+import { unauthorizedError } from "@/errors";
 import axios from "axios";
 
 async function getUserGitHubInfo(code: string) {
@@ -6,8 +7,7 @@ async function getUserGitHubInfo(code: string) {
     const userGitId = await fetchUser(token);
     return (userGitId);
   } catch (error) {
-    console.log("error", error.response.data);
-    return error;
+    throw unauthorizedError();
   }
 }
 
@@ -32,14 +32,16 @@ async function exchangeCodeForAccesToken(code: string) {
 }
 
 async function fetchUser(token: string) {
-  const response = await axios.get("http://api.github.com/user", {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  });
-
-  console.log(response.data);
-  return response.data.id;
+  try {
+    const response = await axios.get("http://api.github.com/user", {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    return response.data.id; 
+  } catch (error) {
+    throw unauthorizedError();
+  }
 }
 
 const gitHubAuthService = {

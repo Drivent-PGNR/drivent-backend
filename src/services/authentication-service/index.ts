@@ -27,7 +27,6 @@ async function signIn(params: SignInParams): Promise<SignInResult> {
 async function signInWithGitHub(code: string) {
   const userGitId = await gitHubAuthService.getUserGitHubInfo(code);
   const email = `${userGitId}@github.com`;
-  console.log(email);
 
   let user = await userRepository.findByEmail(email, { id: true, email: true, password: true });
   if (!user) {
