@@ -12,3 +12,4 @@ activitiesRouter
   .post("/:activityId/enroll", connectTicketToActivity);
 
 export { activitiesRouter };
+ 
