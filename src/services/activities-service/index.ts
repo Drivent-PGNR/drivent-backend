@@ -1,4 +1,4 @@
-import { notFoundError, forbiddenError } from "@/errors";
+/* import { notFoundError, forbiddenError } from "@/errors";
 import activityRepository from "@/repositories/activity-repository";
 import ticketRepository from "@/repositories/ticket-repository";
 
@@ -37,3 +37,4 @@ const activityService = {
 };
 
 export default activityService;
+ */

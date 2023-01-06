@@ -4,7 +4,10 @@ import { exclude } from "@/utils/prisma-utils";
 import { User } from "@prisma/client";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import userService from "../users-service";
 import { invalidCredentialsError } from "./errors";
+import { v4 as uuidv4 } from "uuid";
+import gitHubAuthService from "../gitHubAuth-service";
 
 async function signIn(params: SignInParams): Promise<SignInResult> {
   const { email, password } = params;
@@ -12,6 +15,24 @@ async function signIn(params: SignInParams): Promise<SignInResult> {
   const user = await getUserOrFail(email);
 
   await validatePasswordOrFail(password, user.password);
+
+  const token = await createSession(user.id);
+
+  return {
+    user: exclude(user, "password"),
+    token,
+  };
+}
+
+async function signInWithGitHub(code: string) {
+  const userGitId = await gitHubAuthService.getUserGitHubInfo(code);
+  const email = `${userGitId}@github.com`;
+
+  let user = await userRepository.findByEmail(email, { id: true, email: true, password: true });
+  if (!user) {
+    const password = uuidv4();
+    user = await userService.createUser({ email, password });
+  }
 
   const token = await createSession(user.id);
 
@@ -54,6 +75,7 @@ type GetUserOrFailResult = Pick<User, "id" | "email" | "password">;
 
 const authenticationService = {
   signIn,
+  signInWithGitHub
 };
 
 export default authenticationService;
