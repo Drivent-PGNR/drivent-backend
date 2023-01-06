@@ -30,10 +30,25 @@ async function connectTicketToActivity(userId: number, activityId: number) {
   return activityRepository.connectTicketToActivity(ticket.id, activityId);
 }
 
+async function getDayActivity() {
+  const activities = await activityRepository.findDayActivities();
+  const aux: string[]=[];
+
+  activities.forEach((activity) => {
+    if(!aux.includes(activity.startsAt.toLocaleDateString("pt-BR",
+      {  weekday: "long", day: "numeric", month: "numeric" }))) {
+      aux.push(activity.startsAt.toLocaleDateString("pt-BR",
+        {  weekday: "long", day: "numeric", month: "numeric" }));
+    }
+  });
+  return aux;
+}
+
 const activityService = {
   getActivities,
   getActivitiesByDay,
-  connectTicketToActivity
+  connectTicketToActivity,
+  getDayActivity
 };
 
 export default activityService;
