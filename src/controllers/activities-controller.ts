@@ -38,6 +38,9 @@ export async function connectTicketToActivity(req: AuthenticatedRequest, res: Re
     if (error.name === "ForbiddenError") {
       res.sendStatus(httpStatus.FORBIDDEN);
     }
+    if (error.name === "ConflictError") {
+      res.sendStatus(httpStatus.CONFLICT);
+    }
     return res.sendStatus(httpStatus.BAD_REQUEST);
   }
 }

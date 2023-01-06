@@ -8,7 +8,7 @@ activitiesRouter
   .all("/*", authenticateToken)
   .get("/", getActivities)
   .get("/:eventDay", getActivitiesByDay)
-  .post("/:activityId/enroll", connectTicketToActivity);
+  .post("/:activityId", connectTicketToActivity);
 
 export { activitiesRouter };
-
+ 
