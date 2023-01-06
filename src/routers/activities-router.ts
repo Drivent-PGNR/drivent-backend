@@ -9,7 +9,7 @@ activitiesRouter
   .get("/", getActivities)
   .get("/dayActivities", getDayActivities)
   .get("/:eventDay", getActivitiesByDay)
-  .post("/:activityId/enroll", connectTicketToActivity);
+  .post("/:activityId", connectTicketToActivity);
 
 export { activitiesRouter };
  
