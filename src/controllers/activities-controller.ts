@@ -14,7 +14,7 @@ export async function getActivities(_req: AuthenticatedRequest, res: Response) {
 
 export async function getActivitiesByDay(req: AuthenticatedRequest, res: Response) {
   const { eventDay } = req.params;
-
+  
   try {
     const activities = await activityService.getActivitiesByDay(+eventDay);
     return res.status(httpStatus.OK).send(activities);
@@ -26,7 +26,7 @@ export async function getActivitiesByDay(req: AuthenticatedRequest, res: Respons
 export async function connectTicketToActivity(req: AuthenticatedRequest, res: Response) {
   const { userId } = req;
   const { activityId } = req.params;
-
+  
   try {
     await activityService.connectTicketToActivity(userId, +activityId);
 
@@ -44,6 +44,15 @@ export async function connectTicketToActivity(req: AuthenticatedRequest, res: Re
     if (error.name === "PaymentRequiredError") {
       return res.sendStatus(httpStatus.PAYMENT_REQUIRED);
     }
+    return res.sendStatus(httpStatus.BAD_REQUEST);
+  }
+}
+
+export async function getDayActivities(_req: AuthenticatedRequest, res: Response) {
+  try {
+    const dayActivity = await activityService.getDayActivity();
+    return res.status(httpStatus.OK).send(dayActivity);
+  } catch (error) {
     return res.sendStatus(httpStatus.BAD_REQUEST);
   }
 }
