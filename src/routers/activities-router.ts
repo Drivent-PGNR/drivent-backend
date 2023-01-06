@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { authenticateToken } from "@/middlewares";
-import { connectTicketToActivity, getActivities, getActivitiesByDay, getDayActivities } from "@/controllers";
+import { connectTicketToActivity, getActivities, getActivitiesByDay, getDayActivities } from "@/controllers/activities-controller";
 
 const activitiesRouter = Router();
 

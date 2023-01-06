@@ -67,6 +67,9 @@ async function findDayActivities() {
   return prisma.activity.findMany({
     select: {    
       startsAt: true,
+    },
+    orderBy: {
+      startsAt: "asc"
     }
      
   });

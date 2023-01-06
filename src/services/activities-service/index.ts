@@ -1,4 +1,4 @@
-/* import { notFoundError, forbiddenError } from "@/errors";
+import { notFoundError, forbiddenError } from "@/errors";
 import activityRepository from "@/repositories/activity-repository";
 import ticketRepository from "@/repositories/ticket-repository";
 
@@ -35,10 +35,8 @@ async function getDayActivity() {
   const aux: string[]=[];
 
   activities.forEach((activity) => {
-    if(!aux.includes(activity.startsAt.toLocaleDateString("pt-BR",
-      {  weekday: "long", day: "numeric", month: "numeric" }))) {
-      aux.push(activity.startsAt.toLocaleDateString("pt-BR",
-        {  weekday: "long", day: "numeric", month: "numeric" }));
+    if(!aux.includes(activity.startsAt.toLocaleDateString())) {
+      aux.push(activity.startsAt.toLocaleDateString());
     }
   });
   return aux;
@@ -52,4 +50,4 @@ const activityService = {
 };
 
 export default activityService;
- */
+
