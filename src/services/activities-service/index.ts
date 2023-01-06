@@ -33,7 +33,6 @@ async function connectTicketToActivity(userId: number, activityId: number) {
 async function getDayActivity() {
   const activities = await activityRepository.findDayActivities();
   const aux: string[]=[];
-
   activities.forEach((activity) => {
     if(!aux.includes(activity.startsAt.toLocaleDateString())) {
       aux.push(activity.startsAt.toLocaleDateString());
@@ -50,4 +49,3 @@ const activityService = {
 };
 
 export default activityService;
-
