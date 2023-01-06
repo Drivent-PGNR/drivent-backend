@@ -29,6 +29,11 @@ async function findActivitiesByDay(currentDay: Date) {
           Ticket: true
         }
       },
+      Ticket: {
+        include: {
+          Enrollment: true
+        }
+      },
       Building: true
     },
     orderBy: {

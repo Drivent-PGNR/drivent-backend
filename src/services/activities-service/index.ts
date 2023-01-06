@@ -42,7 +42,7 @@ async function connectTicketToActivity(userId: number, activityId: number) {
   if (timeConflict) {
     throw conflictError("Time conflict");
   }
-  
+
   return activityRepository.connectTicketToActivity(ticket.id, activityId);
 }
 
