@@ -1,4 +1,4 @@
-/* import { Router } from "express";
+import { Router } from "express";
 import { authenticateToken } from "@/middlewares";
 import { connectTicketToActivity, getActivities, getActivitiesByDay } from "@/controllers";
 
@@ -11,4 +11,4 @@ activitiesRouter
   .post("/:activityId/enroll", connectTicketToActivity);
 
 export { activitiesRouter };
- */
+
