@@ -1,4 +1,4 @@
-/* import { Router } from "express";
+import { Router } from "express";
 import { authenticateToken } from "@/middlewares";
 import { connectTicketToActivity, getActivities, getActivitiesByDay } from "@/controllers";
 
@@ -8,7 +8,7 @@ activitiesRouter
   .all("/*", authenticateToken)
   .get("/", getActivities)
   .get("/:eventDay", getActivitiesByDay)
-  .post("/:activityId/enroll", connectTicketToActivity);
+  .post("/:activityId", connectTicketToActivity);
 
 export { activitiesRouter };
- */
+ 
