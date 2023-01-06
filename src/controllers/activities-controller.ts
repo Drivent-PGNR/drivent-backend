@@ -6,7 +6,17 @@ import httpStatus from "http-status";
 export async function getActivities(_req: AuthenticatedRequest, res: Response) {
   try {
     const activities = await activityService.getActivities();
+    return res.status(httpStatus.OK).send(activities);
+  } catch (error) {
+    return res.sendStatus(httpStatus.BAD_REQUEST);
+  }
+}
 
+export async function getActivitiesByDay(req: AuthenticatedRequest, res: Response) {
+  const { eventDay } = req.params;
+
+  try {
+    const activities = await activityService.getActivitiesByDay(+eventDay);
     return res.status(httpStatus.OK).send(activities);
   } catch (error) {
     return res.sendStatus(httpStatus.BAD_REQUEST);

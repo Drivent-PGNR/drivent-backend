@@ -3,8 +3,13 @@ import activityRepository from "@/repositories/activity-repository";
 import ticketRepository from "@/repositories/ticket-repository";
 
 async function getActivities() {
-  const activities = await activityRepository.findActivities();
-  return activities;
+  return activityRepository.findActivities();
+}
+
+async function getActivitiesByDay(day: number) {
+  const eventDate = new Date(day);
+
+  return activityRepository.findActivitiesByDay(eventDate);
 }
 
 async function connectTicketToActivity(userId: number, activityId: number) {
@@ -27,6 +32,7 @@ async function connectTicketToActivity(userId: number, activityId: number) {
 
 const activityService = {
   getActivities,
+  getActivitiesByDay,
   connectTicketToActivity
 };
 
