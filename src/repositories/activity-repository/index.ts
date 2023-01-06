@@ -14,6 +14,30 @@ async function findActivities() {
   });
 }
 
+async function findActivitiesByDay(currentDay: Date) {
+  const nextDay = new Date(currentDay.getTime() + 1000 * 60 * 60 * 24);
+
+  return prisma.activity.findMany({
+    where: {
+      startsAt: {
+        gte: currentDay,
+        lt: nextDay,
+      }
+    },
+    include: {
+      _count: {
+        select: {
+          Ticket: true
+        }
+      },
+      Building: true
+    },
+    orderBy: {
+      startsAt: "asc"
+    }
+  });
+}
+
 async function findActivityById(id: number) {
   return prisma.activity.findFirst({
     where: { id },
@@ -42,6 +66,7 @@ async function connectTicketToActivity(ticketId: number, activityId: number) {
 const activityRepository = {
   findActivities,
   findActivityById,
+  findActivitiesByDay,
   connectTicketToActivity
 };
 
