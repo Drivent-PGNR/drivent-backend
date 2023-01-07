@@ -1,5 +1,7 @@
-import { notFoundError, forbiddenError, conflictError } from "@/errors";
+import { notFoundError, forbiddenError, conflictError, paymentRequiredError } from "@/errors";
 import activityRepository from "@/repositories/activity-repository";
+import bookingRepository from "@/repositories/booking-repository";
+import enrollmentRepository from "@/repositories/enrollment-repository";
 import ticketRepository from "@/repositories/ticket-repository";
 
 async function getActivities() {
@@ -12,11 +14,38 @@ async function getActivitiesByDay(day: number) {
   return activityRepository.findActivitiesByDay(eventDate);
 }
 
-async function connectTicketToActivity(userId: number, activityId: number) {
-  const ticket = await ticketRepository.findTicketByUserId(userId);
+async function checkEnrollmentTicketAndBooking(userId: number) {
+  const enrollment = await enrollmentRepository.findWithAddressByUserId(userId);
+  if (!enrollment) {
+    throw notFoundError();
+  }
+  const ticket = await ticketRepository.findTicketByEnrollmentId(enrollment.id);
+
   if (!ticket) {
     throw notFoundError();
   }
+  
+  if (ticket.TicketType.isRemote) {
+    throw forbiddenError();
+  }
+
+  if (ticket.status === "RESERVED") {
+    throw paymentRequiredError();
+  }
+
+  if (ticket.TicketType.includesHotel) {
+    const booking = await bookingRepository.findByUserId(userId);
+    
+    if (!booking) {
+      throw notFoundError();
+    }
+  }
+
+  return ticket;
+}
+
+async function connectTicketToActivity(userId: number, activityId: number) {
+  const ticket = await checkEnrollmentTicketAndBooking(userId);
 
   const activity = await activityRepository.findActivityById(activityId);
   if (!activity) {
@@ -46,10 +75,22 @@ async function connectTicketToActivity(userId: number, activityId: number) {
   return activityRepository.connectTicketToActivity(ticket.id, activityId);
 }
 
+async function getDayActivity() {
+  const activities = await activityRepository.findDayActivities();
+  const aux: string[]=[];
+  activities.forEach((activity) => {
+    if(!aux.includes(activity.startsAt.toLocaleDateString())) {
+      aux.push(activity.startsAt.toLocaleDateString());
+    }
+  });
+  return aux;
+}
+
 const activityService = {
   getActivities,
   getActivitiesByDay,
-  connectTicketToActivity
+  connectTicketToActivity,
+  getDayActivity
 };
 
 export default activityService;

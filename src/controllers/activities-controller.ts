@@ -14,7 +14,7 @@ export async function getActivities(_req: AuthenticatedRequest, res: Response) {
 
 export async function getActivitiesByDay(req: AuthenticatedRequest, res: Response) {
   const { eventDay } = req.params;
-
+  
   try {
     const activities = await activityService.getActivitiesByDay(+eventDay);
     return res.status(httpStatus.OK).send(activities);
@@ -26,21 +26,33 @@ export async function getActivitiesByDay(req: AuthenticatedRequest, res: Respons
 export async function connectTicketToActivity(req: AuthenticatedRequest, res: Response) {
   const { userId } = req;
   const { activityId } = req.params;
-
+  
   try {
     await activityService.connectTicketToActivity(userId, +activityId);
 
     return res.sendStatus(httpStatus.CREATED);
   } catch (error) {
     if (error.name === "NotFoundError") {
-      res.sendStatus(httpStatus.NOT_FOUND);
+      return res.sendStatus(httpStatus.NOT_FOUND);
     }
     if (error.name === "ForbiddenError") {
-      res.sendStatus(httpStatus.FORBIDDEN);
+      return res.sendStatus(httpStatus.FORBIDDEN);
     }
     if (error.name === "ConflictError") {
-      res.sendStatus(httpStatus.CONFLICT);
+      return res.sendStatus(httpStatus.CONFLICT);
     }
+    if (error.name === "PaymentRequiredError") {
+      return res.sendStatus(httpStatus.PAYMENT_REQUIRED);
+    }
+    return res.sendStatus(httpStatus.BAD_REQUEST);
+  }
+}
+
+export async function getDayActivities(_req: AuthenticatedRequest, res: Response) {
+  try {
+    const dayActivity = await activityService.getDayActivity();
+    return res.status(httpStatus.OK).send(dayActivity);
+  } catch (error) {
     return res.sendStatus(httpStatus.BAD_REQUEST);
   }
 }
