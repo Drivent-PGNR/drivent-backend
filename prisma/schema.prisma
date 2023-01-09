@@ -151,6 +151,7 @@ model Activity {
   buildingId Int
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+  @@index([startsAt])
 }
 
 model Building {
