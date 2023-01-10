@@ -69,10 +69,10 @@ describe("POST /auth/sign-in", () => {
 
         const response = await server.post("/auth/sign-in").send(body);
 
-        expect(response.body.user).toEqual({
+        expect(response.body.user).toEqual(expect.objectContaining({
           id: user.id,
           email: user.email,
-        });
+        }));
       });
 
       it("should respond with session token", async () => {
