@@ -28,7 +28,7 @@ async function signInWithGitHub(code: string) {
   const userGitId = await gitHubAuthService.getUserGitHubInfo(code);
   const email = `${userGitId}@github.com`;
 
-  let user = await userRepository.findByEmail(email, { id: true, email: true, password: true });
+  let user = await userRepository.findByEmail(email);
   if (!user) {
     const password = uuidv4();
     user = await userService.createUser({ email, password });
@@ -43,7 +43,7 @@ async function signInWithGitHub(code: string) {
 }
 
 async function getUserOrFail(email: string): Promise<GetUserOrFailResult> {
-  const user = await userRepository.findByEmail(email, { id: true, email: true, password: true });
+  const user = await userRepository.findByEmail(email);
   if (!user) throw invalidCredentialsError();
 
   return user;
