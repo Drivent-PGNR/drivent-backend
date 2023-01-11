@@ -3,9 +3,9 @@ import axios from "axios";
 
 async function getUserGitHubInfo(code: string) {
   try {
-    const token = await exchangeCodeForAccesToken(code); 
-    const userGitId = await fetchUser(token);
-    return (userGitId);
+    const token = await exchangeCodeForAccesToken(code);
+    const user = await fetchUser(token);
+    return user;
   } catch (error) {
     throw unauthorizedError();
   }
@@ -33,12 +33,12 @@ async function exchangeCodeForAccesToken(code: string) {
 
 async function fetchUser(token: string) {
   try {
-    const response = await axios.get("http://api.github.com/user", {
+    const { data: user } = await axios.get("http://api.github.com/user", {
       headers: {
         Authorization: `Bearer ${token}`
       }
     });
-    return response.data.id; 
+    return user;
   } catch (error) {
     throw unauthorizedError();
   }
@@ -47,5 +47,5 @@ async function fetchUser(token: string) {
 const gitHubAuthService = {
   getUserGitHubInfo
 };
-  
+
 export default gitHubAuthService;
