@@ -75,6 +75,7 @@ async function findDayActivities() {
     orderBy: {
       startsAt: "asc"
     }
+  });
 }
 
 async function findUserActivities(ticketId: number) {
