@@ -1,5 +1,4 @@
 import { prisma } from "@/config";
-import { Activity } from "@prisma/client";
 
 async function findActivities() {
   return prisma.activity.findMany({
@@ -28,6 +27,11 @@ async function findActivitiesByDay(currentDay: Date) {
       _count: {
         select: {
           Ticket: true
+        }
+      },
+      Ticket: {
+        include: {
+          Enrollment: true
         }
       },
       Building: true
@@ -71,7 +75,18 @@ async function findDayActivities() {
     orderBy: {
       startsAt: "asc"
     }
-     
+  });
+}
+
+async function findUserActivities(ticketId: number) {
+  return prisma.activity.findMany({
+    where: {
+      Ticket: {
+        some: {
+          id: ticketId,
+        }
+      }
+    }
   });
 }
 
@@ -80,8 +95,8 @@ const activityRepository = {
   findActivityById,
   findActivitiesByDay,
   connectTicketToActivity,
-  findDayActivities
+  findDayActivities,
+  findUserActivities,
 };
 
 export default activityRepository;
- 
