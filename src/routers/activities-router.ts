@@ -5,7 +5,7 @@ import { connectTicketToActivity, getActivities, getActivitiesByDay, getDayActiv
 const activitiesRouter = Router();
 
 activitiesRouter
-  //.all("/*", authenticateToken)
+  .all("/*", authenticateToken)
   .get("/", getActivities)
   .get("/dayActivities", getDayActivities)
   .get("/:eventDay", getActivitiesByDay)

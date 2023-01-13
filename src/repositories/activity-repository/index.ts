@@ -92,26 +92,21 @@ async function findUserActivities(ticketId: number) {
   });
 }
 
-async function existActivitiesCache(name: string) {
-  return redis.exists(name);
+async function existActivitiesCache(cacheName: string) {
+  return redis.exists(cacheName);
 }
 
-async function insertActivitiesCache(activities: Activity[]) {
-  const activitiesJSON = JSON.stringify(activities);
-  return redis.set("activities", activitiesJSON);
+async function insertActivitiesCache(cacheName: string, data: Activity[] | string[]) {
+  const dataJSON = JSON.stringify(data);
+  return redis.set(cacheName, dataJSON);
 }
 
-async function findActivitiesCache(name: string) {
-  return redis.get(name);
+async function findActivitiesCache(cacheName: string) {
+  return redis.get(cacheName);
 }
 
 async function deleteCache(cacheName: string) {
   return redis.del(cacheName);
-}
-
-async function insertDaysActivitiesCache(days: string[]) {
-  const daysJSON = JSON.stringify(days);
-  return redis.set("days_activity", daysJSON);
 }
 
 const activityRepository = {
@@ -125,7 +120,6 @@ const activityRepository = {
   insertActivitiesCache,
   findActivitiesCache,
   deleteCache,
-  insertDaysActivitiesCache,
 };
 
 export default activityRepository;
