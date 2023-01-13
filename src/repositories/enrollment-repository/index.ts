@@ -24,13 +24,6 @@ async function upsert(
   createdAddress: CreateAddressParams, 
   updatedAddress: UpdateAddressParams,
 ) {
-  console.log(userId);
-  console.log(createdEnrollment);
-  console.log(updatedEnrollment);
-  console.log(enrollmentId);
-  console.log(createdAddress);
-  console.log(updatedAddress);
-
   const userUpdate = prisma.enrollment.upsert({
     where: {
       userId,
