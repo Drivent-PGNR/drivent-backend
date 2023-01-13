@@ -5,7 +5,12 @@ import enrollmentRepository from "@/repositories/enrollment-repository";
 import ticketRepository from "@/repositories/ticket-repository";
 
 async function getActivities() {
-  return activityRepository.findActivities();
+  if (await existCache("activities")) {
+    return activityRepository.findActivitiesCache("activities");
+  }
+
+  const activities = await activityRepository.findActivities();
+  return activities;
 }
 
 async function getActivitiesByDay(day: number) {
@@ -76,6 +81,10 @@ async function connectTicketToActivity(userId: number, activityId: number) {
 }
 
 async function getDayActivity() {
+  if (await existCache("days_activity")) {
+    return activityRepository.findActivitiesCache("days_activity");
+  }
+
   const activities = await activityRepository.findDayActivities();
   const aux: string[]=[];
   activities.forEach((activity) => {
@@ -83,7 +92,15 @@ async function getDayActivity() {
       aux.push(activity.startsAt.toLocaleDateString());
     }
   });
+
+  await activityRepository.insertDaysActivitiesCache(aux);
   return aux;
+}
+
+async function existCache(name: string) {
+  if (await activityRepository.existActivitiesCache(name)) {
+    return true;
+  }
 }
 
 const activityService = {

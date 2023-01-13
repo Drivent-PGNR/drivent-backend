@@ -1,4 +1,6 @@
 import { prisma } from "@/config";
+import { redis } from "@/config";
+import { Activity } from "@prisma/client";
 
 async function findActivities() {
   return prisma.activity.findMany({
@@ -90,6 +92,28 @@ async function findUserActivities(ticketId: number) {
   });
 }
 
+async function existActivitiesCache(name: string) {
+  return redis.exists(name);
+}
+
+async function insertActivitiesCache(activities: Activity[]) {
+  const activitiesJSON = JSON.stringify(activities);
+  return redis.set("activities", activitiesJSON);
+}
+
+async function findActivitiesCache(name: string) {
+  return redis.get(name);
+}
+
+async function deleteCache(cacheName: string) {
+  return redis.del(cacheName);
+}
+
+async function insertDaysActivitiesCache(days: string[]) {
+  const daysJSON = JSON.stringify(days);
+  return redis.set("days_activity", daysJSON);
+}
+
 const activityRepository = {
   findActivities,
   findActivityById,
@@ -97,6 +121,11 @@ const activityRepository = {
   connectTicketToActivity,
   findDayActivities,
   findUserActivities,
+  existActivitiesCache,
+  insertActivitiesCache,
+  findActivitiesCache,
+  deleteCache,
+  insertDaysActivitiesCache,
 };
 
 export default activityRepository;
