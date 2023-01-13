@@ -29,7 +29,9 @@ async function signInWithGitHub(code: string) {
   const email = `${id}@github.com`;
 
   let user = await userRepository.findByEmail(email);
+  let newUser = false;
   if (!user) {
+    newUser = true;
     const password = uuidv4();
     user = await userService.createUser({ email, password });
   }
@@ -37,6 +39,7 @@ async function signInWithGitHub(code: string) {
   const token = await createSession(user.id);
 
   return {
+    newUser,
     user: exclude(user, "password"),
     token,
   };

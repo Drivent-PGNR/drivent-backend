@@ -16,9 +16,17 @@ export async function singInPost(req: Request, res: Response) {
 export async function signInWithGitHub(req: Request, res: Response) {
   const { code } = req.body as Record<string, string>;
 
+  if (Object.values(req.body).length === 0) {
+    return res.sendStatus(httpStatus.BAD_REQUEST);
+  }
+
   try {
     const result = await authenticationService.signInWithGitHub(code);
-    return res.status(httpStatus.OK).send(result);
+    if (result.newUser) {
+      return res.status(httpStatus.CREATED).send(result);
+    } else {
+      return res.status(httpStatus.OK).send(result);
+    }
   } catch (error) {
     return res.sendStatus(httpStatus.UNAUTHORIZED);
   }
