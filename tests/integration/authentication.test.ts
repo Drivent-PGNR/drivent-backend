@@ -86,3 +86,19 @@ describe("POST /auth/sign-in", () => {
     });
   });
 });
+
+describe("POST /auth/sign-in", () => {
+  it("should respond with status 400 when body is not given", async () => {
+    const response = await server.post("/auth/sign-in/github");
+
+    expect(response.status).toBe(httpStatus.BAD_REQUEST);
+  });
+
+  it("should respond with status 401 when body is not valid", async () => {
+    const invalidBody = { [faker.lorem.word()]: faker.lorem.word() };
+
+    const response = await server.post("/auth/sign-in/github").send(invalidBody);
+
+    expect(response.status).toBe(httpStatus.UNAUTHORIZED);
+  });
+});

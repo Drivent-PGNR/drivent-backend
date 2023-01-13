@@ -13,6 +13,15 @@ export async function createActivity() {
       name: faker.name.findName(),
       startsAt: new Date(),
       endsAt: new Date((new Date()).getHours() + 1),
+    },
+    include: {
+      Building: true,
+      _count: {
+        select: {
+          Ticket: true
+        }
+      },
+      Ticket: true
     }
   });
 }
