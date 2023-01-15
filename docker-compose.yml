@@ -7,7 +7,7 @@ services:
       - 5000:4002
     depends_on:
       - db
-      - cache
+      - redis
     volumes:
       - .:/app
   db:
@@ -20,17 +20,9 @@ services:
     restart: always
     volumes:
       - postgres:/var/lib/postgres/data
-  cache:
+  redis:
     image: redis:6.2-alpine
-    command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
-    container_name: cache
-    ports:
-      - 6379:6379
-    restart: always
-    volumes:
-      - cache:/data
+    command: redis-server
+    container_name: redis
 volumes:
   postgres:
-    driver: local
-  cache:
-    driver: local
