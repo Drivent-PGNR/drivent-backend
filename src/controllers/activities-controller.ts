@@ -16,7 +16,7 @@ export async function getActivitiesByDay(req: AuthenticatedRequest, res: Respons
   const { eventDay } = req.params;
   
   try {
-    const activities = await activityService.getActivitiesByDay(+eventDay);
+    const activities = await activityService.getActivitiesByDay(eventDay);
     return res.status(httpStatus.OK).send(activities);
   } catch (error) {
     return res.sendStatus(httpStatus.BAD_REQUEST);
