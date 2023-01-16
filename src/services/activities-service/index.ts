@@ -74,12 +74,12 @@ async function connectTicketToActivity(userId: number, activityId: number) {
 
   const userActivities = await activityRepository.findUserActivities(ticket.id);
   const activityDay = activity.startsAt.getDate();
-  const activityMonth = activity.startsAt.getMonth();
+  const activityMonth = activity.startsAt.getMonth() + 1;
   const activityYear = activity.startsAt.getFullYear();
 
   const timeConflict = userActivities.some(element => {
     const day = element.startsAt.getDate();
-    const month = element.startsAt.getMonth();
+    const month = element.startsAt.getMonth() + 1;
     const year = element.startsAt.getFullYear();
     const start = element.startsAt.getHours() * 60 + element.startsAt.getMinutes();
     const end = element.endsAt.getHours() * 60 + element.endsAt.getMinutes();

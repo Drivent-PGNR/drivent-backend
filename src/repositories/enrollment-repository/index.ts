@@ -10,40 +10,26 @@ async function findWithAddressByUserId(userId: number) {
   });
 }
 
-async function findById(enrollmentId: number) {
+async function findById(id: number) {
   return prisma.enrollment.findFirst({
-    where: { userId: enrollmentId }
+    where: { id }
   });
 }
 
 async function upsert(
-  userId: number,
   createdEnrollment: CreateEnrollmentParams,
-  updatedEnrollment: UpdateEnrollmentParams,
-  enrollmentId: number, 
   createdAddress: CreateAddressParams, 
-  updatedAddress: UpdateAddressParams,
 ) {
-  const userUpdate = prisma.enrollment.upsert({
-    where: {
-      userId,
-    },
-    create: createdEnrollment,
-    update: updatedEnrollment,
+  return await prisma.enrollment.create({
+    data: {
+      ...createdEnrollment,
+      Address: {
+        create: {
+          ...createdAddress
+        }
+      }
+    }
   });
-  
-  const adressUpdate = prisma.address.upsert({
-    where: {
-      enrollmentId,
-    },
-    create: {
-      ...createdAddress,
-      Enrollment: { connect: { id: enrollmentId } },
-    },
-    update: updatedAddress,
-  });
-
-  return await prisma.$transaction([userUpdate, adressUpdate]);
 }
 
 export type CreateEnrollmentParams = Omit<Enrollment, "id" | "createdAt" | "updatedAt">;
