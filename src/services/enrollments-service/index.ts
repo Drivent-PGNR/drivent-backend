@@ -1,7 +1,7 @@
 import { AddressEnrollment } from "@/protocols";
 import { getAddress } from "@/utils/cep-service";
 import { notFoundError } from "@/errors";
-import addressRepository, { CreateAddressParams } from "@/repositories/address-repository";
+import { CreateAddressParams } from "@/repositories/address-repository";
 import enrollmentRepository, { CreateEnrollmentParams } from "@/repositories/enrollment-repository";
 import { exclude } from "@/utils/prisma-utils";
 import { Address, Enrollment } from "@prisma/client";
@@ -67,8 +67,7 @@ async function createOrUpdateEnrollmentWithAddress(params: CreateOrUpdateEnrollm
     throw notFoundError();
   }
   
-  const enrollmentId = await enrollmentRepository.findById(params.userId);
-  const newEnrollment = await enrollmentRepository.upsert(params.userId, enrollment, exclude(enrollment, "userId"), enrollmentId.id, address, address);
+  const newEnrollment = await enrollmentRepository.upsert(enrollment, address);
   
   return newEnrollment;
 }
