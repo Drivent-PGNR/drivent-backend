@@ -10,7 +10,9 @@ export async function disconnectDB(): Promise<void> {
   await prisma?.$disconnect();
 }
 
-const redis = createClient();
+const redis = createClient({
+  url: process.env.REDIS_URL
+});
 redis.on("error", (err) => console.error(err));
 redis.connect();
 

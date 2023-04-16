@@ -49,6 +49,7 @@ module.exports = {
     indent: ["error", 2],
     quotes: ["error", "double"],
     semi: ["error", "always"],
+    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "comma-spacing": ["error", { before: false, after: true }],
     "semi-spacing": ["error", { before: false, after: true }],
