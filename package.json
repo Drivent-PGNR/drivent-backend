@@ -24,7 +24,7 @@
     "dev:migration:generate": "npm run dev:load-envs prisma migrate dev",
     "dev:seed": "npm run dev:load-envs prisma db seed",
     "dev": "NODE_ENV=development nodemon --watch 'src/**' --exec ts-node -r tsconfig-paths/register ./src/server.ts -e ts",
-    "docker:start": "npm run migration:run && npm run start"
+    "docker:start": "npm run migration:run && npm run dev:seed && npm run start"
   },
   "keywords": [
     "driven.t",
